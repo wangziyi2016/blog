@@ -21,9 +21,6 @@ Based  on the mmdet3d framework, we can easily add this as a data aumentation fr
 Add visualization diff.
 Add some drop off for far object.
 
-<!-- <video muted autoplay controls>
-    <source src="/img/posts/bev_compressed.mp4" type="video/mp4">
-</video> -->
 
 <div class="col-sm mt-0 mt-md-0">
     {% include video.html path="../../../assets/posts/bev_compressed.mp4" position="center"  %}
