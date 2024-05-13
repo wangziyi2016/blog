@@ -35,5 +35,5 @@ We can see the demo of the multi-view human pose estimation in the following vid
 Watch the following video demonstration showcasing multi-view human pose estimation. Similar methodology can be applied to object 3D keypoint estimation, such as in the case of a football. The video demonstrates the 3D human skeleton and includes football animation.
 
 <div class="col-sm mt-0 mt-md-0">
-    {% include video.html path="/assets/posts/mv_person_compressed.mp4" position="center"  %}
+    {% include video.html path="../../../assets/posts/mv_person_compressed.mp4" position="center"  %}
 </div>
