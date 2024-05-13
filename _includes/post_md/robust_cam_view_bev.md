@@ -26,7 +26,7 @@ Add some drop off for far object.
 </video> -->
 
 <div class="col-sm mt-0 mt-md-0">
-    {% include video.html path="/img/posts/bev_compressed.mp4" position="center"  %}
+    {% include video.html path="../../../assets/posts/bev_compressed.mp4" position="center"  %}
 </div>
 
 Refrences:
