@@ -29,9 +29,13 @@ Add some drop off for far object.
 Refrences:
 
 bevfusion paper https://arxiv.org/abs/2205.13542
-AI lidar solution
-Nvidia lidar-AI solution https://github.com/NVIDIA-AI-IOT/Lidar_AI_Solution
+
+AI lidar solution Nvidia lidar-AI solution https://github.com/NVIDIA-AI-IOT/Lidar_AI_Solution
+
 https://www.nature.com/articles/s41598-023-34479-z
+
 nuscenes dataset https://www.nuscenes.org/
+
 Towards Viewpoint Robustness in Bird’s Eye View Segmentation https://nvlabs.github.io/viewpoint-robustness/
+
 Using Synthetic Data to Address Novel Viewpoints for Autonomous Vehicle Perception https://developer.nvidia.com/blog/using-synthetic-data-to-address-novel-viewpoints-for-autonomous-vehicle-perception/
