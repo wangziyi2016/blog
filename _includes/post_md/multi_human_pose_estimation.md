@@ -12,8 +12,8 @@
 ## Algorithm Overview
 Obtaining depth information from a single image is challenging. One solution for 3D human pose estimation is multi-view triangulation. The algorithm consists of these steps:\\
 **2D Human Pose Estimation**:  Using a top-down pipeline, the algorithm first detects the human body within an image to obtain a bounding box. It then proceeds to locate key points (joints) of the body. Numerous real-time algorithms exist for 2D pose estimation, including MediaPipe Pose, HRNet, RTMPose, and YOLO_Pose.
-<img src="../../../assets/posts/2d_img_keypoints.png" width="800" height= auto alt="2d keypoints detection">
-<span class="caption text-muted"> "2d Human Keypoint Detection" </span>
+<img src="../../../assets/posts/2d_img_keypoints.png" width="800" height= auto alt="2D keypoints detection">
+<span class="caption text-muted"> "2D Human Keypoint Detection" </span>
 
 **Multi-view Correspondences**: Key points across different camera views must be matched before triangulation. This can be formulated as a matching problem using epipolar geometry and person re-identification techniques.
 <img src="../../../assets/posts/mv_correspondence.png " width="800" height= auto alt="Cross-view matching">
@@ -29,7 +29,7 @@ This same approach can also be applied to 3D keypoint estimation for objects, su
     {% include video.html path="../../../assets/posts/mv_person_compressed.mp4" position="center"  %}
 </div>
 
-<span class="caption text-muted"> "3d Human and Object Pose estimation" </span>
+<span class="caption text-muted"> "3D Human and Object Pose estimation" </span>
 
 
 ## Refrences
