@@ -46,3 +46,14 @@ pre {
   max-height: $pre-scrollable-max-height;
   overflow-y: scroll;
 }
+
+// Custom styles for bash code block
+/* Custom styles for bash code block with a gentle color theme */
+.code-block .bash {
+  color: #a8d5e2; /* Gentle light blue color for text */
+  background-color: #000000; /* Black background */
+  padding: 10px;
+  border-radius: 5px;
+  display: block;
+  font-family: 'Courier New', Courier, monospace; /* Optional: add a monospace font for code */
+}
