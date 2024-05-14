@@ -12,20 +12,20 @@
 
 ## Algorithm overview
 Getting depth information from a single image is challenging due to the lack of depth cues.
-One common solution for 3d human pose estimation is to use multi vew tringulation. The algorithm can be divided into the following steps: 
-## 1 2d Human pose estimation 
+One common solution for 3d human pose estimation is to use multi vew triangulation. The algorithm can be divided into the following steps: 
+### 1 2d Human pose estimation 
 1 top to bottom pipeline 
 Using a top-to-bottom pipeline, the algorithm initially detects the human body to obtain a bounding box and then proceeds to detect the keypoints. 
 Numerous real-time algorithms exist for 2D human pose estimation, such as Medias, HRNet, RTMpose, YOLO Pose, etc. Below is an example of 2D human pose estimation using HRNet:
 ![alt text](../../../assets/posts/2d_img_keypoints.png "2d keypoints detection"  width="500")
 
 
-## 2 Multi-view correspondences 
+### 2 Multi-view correspondences 
 We need to find the correspondences between the keypoints of the human body in different views. We will take the geometry .We can formulate this problem by Affinity matrix, see more details in the paper.
 based on the reprojection error.
 ![alt text](../../../assets/posts/mv_correspondence.png "Cross-view matching"  width="500")
 
-## 3 Robust tringualtion
+### 3 Robust triangulation
 After we find the correspondences between the keypoints of the human body in different views, we can use the triangulation method to get the 3D coordinates of the keypoints of the human body. Howerver, both 2d keypoint estimation and correspondences can be noisy, so we need to use the robust triangulation method(similar to RANSAC) to get the 3D coordinates of the keypoints of the human body.
 
 ## Demo

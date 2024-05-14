@@ -2,40 +2,31 @@
 ## BEV percetion
 
 ## What is bevfusion 
-Perception of beverage containers (bev perception) is a burgeoning field within sensor fusion, leveraging multiple data sources to enhance detection accuracy. By integrating inputs from cameras, lidar, and radar, sensor fusion maximizes detection reliability, enabling more robust recognition of beverage containers amidst cluttered environments. Moreover, its potential lies in its ability to discern subtle variations in shape, size, and material composition, transcending the limitations of single-sensor systems. Advantages of bev perception over conventional 3D object detection methods are manifold. Unlike traditional approaches that may struggle with occlusion or ambiguous object boundaries, sensor fusion offers improved depth perception and context awareness, resulting in higher precision and reduced false positives. This heightened accuracy is particularly advantageous in dynamic scenarios such as autonomous driving, where identifying beverage containers swiftly and accurately is paramount for safety. Additionally, the versatility of sensor fusion allows for seamless integration into various applications beyond automotive contexts. From inventory management in retail settings to waste sorting in recycling facilities, bev perception offers a versatile solution for detecting and classifying beverage containers across diverse environments. This adaptability underscores its significance in addressing real-world challenges and underscores its potential for widespread adoption in the future.
-#video here 
-
-## Challenges in Multi-sensor BEV perception: Potential shift and setup difference in fleet
-The challenges in multi-sensor BEV perception are manifold, ranging from sensor misalignment to environmental variability. One of the key issues is the potential shift in sensor setup across different vehicles in a fleet, leading to discrepancies in data collection and processing. This misalignment can result in inaccurate object detection and classification, compromising the overall performance of the system. Moreover, variations in sensor configuration and calibration can further exacerbate these discrepancies, necessitating robust solutions to ensure consistent and reliable detection across diverse environments. Addressing these challenges requires a comprehensive understanding of the underlying factors influencing sensor fusion, including sensor placement, calibration, and data synchronization. By developing robust algorithms that account for these variations, we can enhance the accuracy and reliability of multi-sensor BEV perception systems, enabling seamless integration into fleet operations. This approach is crucial for ensuring consistent performance across different vehicles and environments, ultimately enhancing the safety and efficiency of autonomous systems in real-world scenarios.
 
 
-## Augmented dataset
-visualization
-Based  on the mmdet3d framework, we can easily add this as a data aumentation framework for this dataset.
+Here's a simplified algorithm overview:
 
+## BEVFusion Algorithm Overview
+BEV Perception, or Bird's-Eye View Perception, is a critical technology in autonomous driving. It involves understanding the surrounding environment from a top-down perspective, similar to a map view. 
+BEVFusion is a powerful framework for fusing **liDAR** and **camera** data for **3D object detection** in autonomous driving scenarios. It follows a Lift-Splat-Shoot paradigm to transform camera features into the BEV space. Here's a high-level overview of the process:
+Lift: Camera features are "lifted" from the 2D image plane into 3D space using **depth estimation**. This is often done by predicting depth probability distributions for each pixel.
+Splat: The lifted 3D features are "splatted" onto the BEV grid. Each feature contributes to multiple BEV cells based on its depth uncertainty. This accounts for potential errors in depth estimation.
+Shoot: The splatted features are aggregated within each BEV cell, creating a dense representation of the scene from the camera's perspective.
 
-## mAP dose work due to the limitation of the dataset
+<div>
+<img src="../../../assets/posts/bev_overview.png" width="800" height: auto/>
+</div>
 
-
-## BEV fusion 
-Add visualization diff.
-Add some drop off for far object.
-
+## Deploy and demo image
+The BEVFusion algorithm can be deployed on an NVIDIA GPU accerlated by CUDA and TensorRT and work as a ROS-node real-time inference. The following steps are involved in deploying the BEVFusion algorithm. Here's a demo showcasing the BEV perception system in action:
 
 <div class="col-sm mt-0 mt-md-0">
     {% include video.html path="../../../assets/posts/bev_compressed.mp4" position="center"  %}
 </div>
 
-Refrences:
 
-bevfusion paper https://arxiv.org/abs/2205.13542
-
-AI lidar solution Nvidia lidar-AI solution https://github.com/NVIDIA-AI-IOT/Lidar_AI_Solution
-
-https://www.nature.com/articles/s41598-023-34479-z
-
-nuscenes dataset https://www.nuscenes.org/
-
-Towards Viewpoint Robustness in Bird’s Eye View Segmentation https://nvlabs.github.io/viewpoint-robustness/
-
-Using Synthetic Data to Address Novel Viewpoints for Autonomous Vehicle Perception https://developer.nvidia.com/blog/using-synthetic-data-to-address-novel-viewpoints-for-autonomous-vehicle-perception/
+## Refrences:
+> [BEVFusion Paper](https://arxiv.org/abs/2205.13542) \\
+> [BEVFusion CUDA Deployment](https://github.com/NVIDIA-AI-IOT/Lidar_AI_Solution)\\
+> [nuScenes Dataset](https://www.nuscenes.org/)\\
+> [Towards Viewpoint Robustness in Bird’s Eye View Segmentation]( https://nvlabs.github.io/viewpoint-robustness/)
