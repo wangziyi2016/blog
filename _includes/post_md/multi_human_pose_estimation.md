@@ -1,40 +1,41 @@
 
 
 
-## Application of 3D Human Pose Estimation
-3D human pose estimation finds applications across various domains:
-
-- **Motion Capture**: Used in movies, games, and VR for lifelike animations.
-- **ControlNet for stable difusion**: Transfer character poses using ControlNet Stable Diffusion
-- **Sports** Analysis: Enhances technique, prevents injuries in athletes.
-- **Security**: Detects suspicious behavior in public spaces.
-- **Human-Computer Interaction**: Enables gesture recognition in gaming and VR.
-
-## Algorithm overview
-Getting depth information from a single image is challenging due to the lack of depth cues.
-One common solution for 3d human pose estimation is to use multi vew triangulation. The algorithm can be divided into the following steps: 
-### 1 2d Human pose estimation 
-1 top to bottom pipeline 
-Using a top-to-bottom pipeline, the algorithm initially detects the human body to obtain a bounding box and then proceeds to detect the keypoints. 
-Numerous real-time algorithms exist for 2D human pose estimation, such as Medias, HRNet, RTMpose, YOLO Pose, etc. Below is an example of 2D human pose estimation using HRNet:
-![alt text](../../../assets/posts/2d_img_keypoints.png "2d keypoints detection"  width="500")
+## Applications of 3D Human Pose Estimation
+3D human pose estimation is vital across multiple domains due to its ability to capture the full spatial positioning of the human body, unlike 2D which only provides planar coordinates. This depth information opens up a wide range of applications:
+Motion Capture: In film, gaming, and virtual reality, 3D pose estimation enables the creation of highly realistic animations by accurately tracking human movement in three dimensions.
+ControlNet for Stable Diffusion: ControlNet uses 3D pose estimation to guide the generation of images, allowing for precise manipulation and transfer of character poses.
+Sports Analysis: By providing detailed 3D representations of athletes' movements, coaches and trainers can analyze technique, identify areas for improvement, and help prevent injuries.
+Security: In surveillance systems, 3D pose estimation can be used to detect suspicious or unusual behavior in public spaces.
+Human-Computer Interaction: Gesture recognition systems in gaming and virtual reality benefit from 3D pose estimation, enabling more intuitive and natural interaction.
 
 
-### 2 Multi-view correspondences 
-We need to find the correspondences between the keypoints of the human body in different views. We will take the geometry .We can formulate this problem by Affinity matrix, see more details in the paper.
-based on the reprojection error.
-![alt text](../../../assets/posts/mv_correspondence.png "Cross-view matching"  width="500")
+## Algorithm Overview
+Obtaining depth information from a single image is challenging. One solution for 3D human pose estimation is multi-view triangulation, which leverages multiple camera perspectives. The algorithm consists of these steps:
 
-### 3 Robust triangulation
-After we find the correspondences between the keypoints of the human body in different views, we can use the triangulation method to get the 3D coordinates of the keypoints of the human body. Howerver, both 2d keypoint estimation and correspondences can be noisy, so we need to use the robust triangulation method(similar to RANSAC) to get the 3D coordinates of the keypoints of the human body.
+**2D Human Pose Estimation**:  Using a top-down pipeline, the algorithm first detects the human body within an image to obtain a bounding box. It then proceeds to locate key points (joints) of the body. Numerous real-time algorithms exist for 2D pose estimation, including MediaPipe Pose, HRNet, RTMPose, and YOLO Pose.
+<img src="../../../assets/posts/2d_img_keypoints.png" width="800" height= auto alt="2d keypoints detection">
+<span class="caption text-muted"> "2d Human Keypoint Detection" </span>
+
+**Multi-view Correspondences**:  Key points across different camera views must be matched to establish their relationship in 3D space. This can be formulated as an affinity matrix problem, using reprojection error to guide the matching process (as detailed in relevant research papers).
+<img src="../../../assets/posts/mv_correspondence.png " width="800" height= auto alt="Cross-view matching">
+<span class="caption text-muted"> "Multi-view Correspondences" </span>
+Robust Triangulation: Once correspondences are established, triangulation is used to calculate the 3D coordinates of the key points. Due to potential noise in both 2D key point estimation and correspondence matching, robust triangulation methods (similar to RANSAC) are employed to ensure accuracy.
 
 ## Demo
-We can see the demo of the multi-view human pose estimation in the following video. We can also apply similar methodnology to the object 3d keypoint estimation, such as the football. You can see the 3d human skeleton and also the football animation in the video.
+The video showcases multi-view human pose estimation in action, demonstrating its effectiveness in real-world situations. The three images below are input streams from different cameras, and the upper portion of the video displays a 3D visualization of the human skeleton generated by our algorithm, along with the camera layout.
 
-
-Watch the following video demonstration showcasing multi-view human pose estimation. Similar methodology can be applied to object 3D keypoint estimation, such as in the case of a football. The video demonstrates the 3D human skeleton and includes football animation.
-
+This same approach can also be applied to 3D keypoint estimation for objects, such as tracking a football's movement. The video provides a clear example, with the football's 3D position visible in the visualizer.
 
 <div class="col-sm mt-0 mt-md-0">
     {% include video.html path="../../../assets/posts/mv_person_compressed.mp4" position="center"  %}
 </div>
+
+<span class="caption text-muted"> "3d Human and Object Pose estimation" </span>
+
+
+## Demo
+> [Fast and Robust Multi-Person 3D Pose Estimation from Multiple Views](https://arxiv.org/pdf/1901.04111) \\
+> [EasyMocap](https://chingswy.github.io/easymocap-public-doc/quickstart/quickstart.html)\\
+> [Autodistill Grounded SAM](https://github.com/autodistill/autodistill-grounded-sam)\\
+> [Ultralytics YOLOv8 ](https://github.com/ultralytics/ultralytics)
