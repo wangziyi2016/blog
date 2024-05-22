@@ -51,7 +51,7 @@ I deployed BEVFusion on my laptop with a 4060ti GPU and built it as a ROS node. 
 <span class="caption text-muted"> "Real-Time 3D Object Detection with BEVFusion in Rviz" </span>
 
 
-### Refrences:
+### References:
 > [BEVFusion Paper](https://arxiv.org/abs/2205.13542) \\
 > [BEVFusion CUDA Deployment](https://github.com/NVIDIA-AI-IOT/Lidar_AI_Solution)\\
 > [nuScenes Dataset](https://www.nuscenes.org/)\\

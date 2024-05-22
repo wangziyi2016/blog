@@ -23,7 +23,7 @@ The BEVFusion algorithm can be deployed on an NVIDIA GPU, accelerated by CUDA an
 <span class="caption text-muted"> "Real-Time 3D Object Detection with BEVFusion in Rviz" </span>
 
 
-### Refrences:
+### References:
 > [BEVFusion Paper](https://arxiv.org/abs/2205.13542) \\
 > [BEVFusion CUDA Deployment](https://github.com/NVIDIA-AI-IOT/Lidar_AI_Solution)\\
 > [nuScenes Dataset](https://www.nuscenes.org/)\\

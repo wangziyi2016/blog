@@ -32,7 +32,7 @@ This same approach can also be applied to 3D keypoint estimation for objects, su
 <span class="caption text-muted"> "3D Human and Object Pose estimation" </span>
 
 
-## Refrences
+## References
 > [Fast and Robust Multi-Person 3D Pose Estimation from Multiple Views](https://arxiv.org/pdf/1901.04111) \\
 > [EasyMocap](https://chingswy.github.io/easymocap-public-doc/quickstart/quickstart.html)\\
 > [Autodistill Grounded SAM](https://github.com/autodistill/autodistill-grounded-sam)\\
