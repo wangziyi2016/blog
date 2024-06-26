@@ -29,7 +29,7 @@ This same approach can also be applied to 3D keypoint estimation for objects, su
     {% include video.html path="../../../assets/posts/mv_person_compressed.mp4" position="center"  %}
 </div>
 
-<span class="caption text-muted"> "3D Human and Object Pose estimation" </span>
+<span class="caption text-muted"> "3D Human and Object Pose estimation(click to play)" </span>
 
 
 ## References

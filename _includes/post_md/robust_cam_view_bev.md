@@ -20,7 +20,7 @@ The BEVFusion algorithm can be deployed on an NVIDIA GPU, accelerated by CUDA an
 <div class="col-sm mt-0 mt-md-0">
     {% include video.html path="../../../assets/posts/bev_compressed.mp4" position="center"  %}
 </div>
-<span class="caption text-muted"> "Real-Time 3D Object Detection with BEVFusion in Rviz" </span>
+<span class="caption text-muted"> "Real-Time 3D Object Detection with BEVFusion in Rviz(click to play)" </span>
 
 
 ### References:
