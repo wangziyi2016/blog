@@ -48,7 +48,7 @@ I deployed BEVFusion on my laptop with a 4060ti GPU and built it as a ROS node. 
 <div class="col-sm mt-0 mt-md-0">
     {% include video.html path="../../../assets/posts/bev.mp4" position="center"  %}
 </div>
-<span class="caption text-muted"> "Real-Time 3D Object Detection with BEVFusion in Rviz" </span>
+<span class="caption text-muted"> "Real-Time 3D Object Detection with BEVFusion in Rviz(click to play)" </span>
 
 
 ### References:
