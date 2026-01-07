@@ -1,8 +1,8 @@
 ### Introduction
-Convertible bonds combine fixed-income cash flows with equity optionality, making their pricing both financially important and technically challenging. In practice, Monte Carlo simulation is the most widely used approach for convertible bond pricing. However, achieving stable and accurate results typically requires a large number of simulated paths and fine time discretization, rendering CPU-based Monte Carlo implementations too slow for many real-time or large-scale applications. This motivates the use of GPU acceleration, and in this post we focus on building a CUDA-based Monte Carlo engine for convertible bond pricing.
+Convertible bonds combine fixed-income cash flows with equity optionality, making their pricing both financially important and technically challenging. In practice, Monte Carlo simulation is the most widely used approach for convertible bond pricing. However, achieving stable and accurate results typically requires a large number of simulated paths and fine time discretization. This makes CPU-based Monte Carlo implementations too slow for many real-time or large-scale applications. And this motivates leveraging GPU acceleration. In this post, we focus on building a CUDA-based Monte Carlo engine for convertible bond pricing.
 
 Rather than designing a model from scratch, we build upon an existing open-source convertible bond pricing repository [convertible_bond_pricing](https://github.com/Jincheng-Gong/convertible_bond_pricing/tree/main)
-. This model was selected because it is well documented, its validity has been verified in the original report, and it is grounded in **real-world contractual provisions** and **real Chinese convertible bond market data**, making it a solid and realistic foundation for studying GPU acceleration.
+. This model was selected because it is well-documented, its validity has been verified in the original report, and it is grounded in **real-world contractual provisions** and **real Chinese convertible bond market data**, making it a solid and realistic foundation for studying GPU acceleration.
 
 <div style="text-align: center;">
   <img src="../../../assets/posts/example_pricing.png" width="800" style="height: auto;">
@@ -11,12 +11,12 @@ Rather than designing a model from scratch, we build upon an existing open-sourc
 ###  Convertible bond pricing model based on Monte Carlo method
 The core logic of this convertible bond pricing model is to operate under a risk-neutral valuation framework. We use simulated stock price paths as the basic state variable and embed the bond’s contract terms explicitly along each path. By doing this, the model captures both the equity option feature and the debt cash flow structure in the convertible bonds. \\
 Generally, the pricing procedure includes three steps:
-- Simulate stock price paths: Generate future stock price paths under the risk-neutral measure, based on the stochastic process of the underlying equity.
+- Simulate stock price paths: Generate future stock price paths under the risk-neutral measure, based on the stochastic process of the underlying stock.
 - Apply contract clauses: Check and apply provisions dynamically—including conversion, redemption (call), put, and reset—along every simulated path to determine the cash flows and termination events.
 - Discount and Average: Discount the payoff from each path back to the valuation date, then take the average across all paths to get the theoretical bond price.
 
-In this model, we assume the stock price follows the standard Black–Scholes–Merton risk-neutral process. Simply speaking, we treat the stock price move as a Geometric Brownian Motion (GBM). Under this framework, the log-return of the stock follows a normal distribution. We set the drift equal to the risk-free rate (minus dividends, if any), and for the volatility, we keep it constant—calculated based on the real stock price data from the last 60 days.
-For every simulated stock price path, our model evaluates the embedded clauses by checking backward along the path. The flowchart below shows how these clauses is applied: 
+In this model, we assume the stock price follows the standard Black–Scholes–Merton risk-neutral process. Put simply, we treat the stock price movement as a Geometric Brownian Motion (GBM). Under this framework, the log-return of the stock follows a normal distribution. We set the drift equal to the risk-free rate (minus dividends, if any), and for the volatility, we keep it constant—calculated based on the real stock price data from the last 60 days.
+For every simulated stock price path, our model evaluates the embedded clauses by checking backward along the path. The flowchart below shows how these clauses are applied: 
 
 <div style="text-align: center;">
   <img src="../../../assets/posts/converable_bond_pricing.png" width="800" style="height: auto;">
@@ -29,7 +29,7 @@ For every simulated stock price path, our model evaluates the embedded clauses b
 
 ### CUDA Implementation and Performance Optimization
 
-Before diving into the detailed GPU optimization journey, we first present the performance results to provide context. We develop three different CUDA kernels to execute the model, all of which achieve comparable accuracy to the CPU implementation. All experiments were conducted on a desktop equipped with an NVIDIA GeForce RTX 4060 Ti, using CUDA Toolkit 12.8. Each CUDA kernel(100,000 paths) was executed 1,000 times, with the first five runs used as warm-up. Reported timings are averages over the remaining runs. Accuracy is evaluated by computing the relative error with respect to the CPU implementation, rather than against a closed-form or “true” price. All the code is available on [GitHub](https://github.com/wangziyi2016/convertible_bond_pricing).
+Before diving into the detailed GPU optimization journey, we first present the performance results to provide context. We develop three different CUDA kernels to execute the model, all of which achieve comparable accuracy to the CPU implementation. All experiments were conducted on a desktop equipped with an NVIDIA GeForce RTX 4060 Ti, using CUDA Toolkit 12.8. Each CUDA kernel (100,000 paths) was executed 1,000 times, with the first five runs used as warm-up. Reported timings are averages over the remaining runs. Accuracy is evaluated by computing the relative error with respect to the CPU implementation, rather than against a closed-form or “true” price. All the code is available on [GitHub](https://github.com/wangziyi2016/convertible_bond_pricing).
 <table style="width: 100%; border-collapse: collapse; font-family: sans-serif; margin: 20px 0; font-size: 14px; line-height: 1.5;">
   <thead>
     <tr style="background-color: #f2f2f2; text-align: left;">
@@ -48,7 +48,7 @@ Before diving into the detailed GPU optimization journey, we first present the p
       </td>
       <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; background-color: #fafafa;">CPU</td>
       <td style="padding: 12px; border: 1px solid #ddd;">FP64</td>
-      <td style="padding: 12px; border: 1px solid #ddd;">41.304 seconds (1x)</td>
+      <td style="padding: 12px; border: 1px solid #ddd;">41.304 seconds (1×)</td>
       <td style="padding: 12px; border: 1px solid #ddd;">0% (reference)</td>
     </tr>
     <tr id="kernel-1">
@@ -57,7 +57,7 @@ Before diving into the detailed GPU optimization journey, we first present the p
       </td>
       <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; background-color: #fafafa;">Naive GPU</td>
       <td style="padding: 12px; border: 1px solid #ddd;">FP64</td>
-      <td style="padding: 12px; border: 1px solid #ddd;">82.52 ms (500X)</td>
+      <td style="padding: 12px; border: 1px solid #ddd;">82.52 ms (500×)</td>
       <td style="padding: 12px; border: 1px solid #ddd;">0.034%</td>
     </tr>
     <tr id="kernel-2">
@@ -66,7 +66,7 @@ Before diving into the detailed GPU optimization journey, we first present the p
       </td>
       <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; background-color: #fafafa;">Mixed Precision</td>
       <td style="padding: 12px; border: 1px solid #ddd;">FP32 / FP64</td>
-      <td style="padding: 12px; border: 1px solid #ddd;">28.04 ms (1473X)</td>
+      <td style="padding: 12px; border: 1px solid #ddd;">28.04 ms (1473×)</td>
       <td style="padding: 12px; border: 1px solid #ddd;">0.060%</td>
     </tr>
     <tr id="kernel-3">
@@ -77,7 +77,7 @@ Before diving into the detailed GPU optimization journey, we first present the p
         Mixed precision + Global memory optimization + sliding window
       </td>
       <td style="padding: 12px; border: 1px solid #ddd;">FP32 / FP64</td>
-      <td style="padding: 12px; border: 1px solid #ddd;">8.01 ms (5156X)</td>
+      <td style="padding: 12px; border: 1px solid #ddd;">8.01 ms (5156×)</td>
       <td style="padding: 12px; border: 1px solid #ddd;">0.043%</td>
     </tr>
   </tbody>
@@ -88,7 +88,7 @@ Before diving into the detailed GPU optimization journey, we first present the p
 ##### Naive GPU Baseline 
 
 
-We begin with a naive GPU implementation which is [Kernel 1](#kernel-1) <a id="kernel-0-desc"></a>, whose primary purpose is to establish a correctness baseline rather than maximize performance.
+We begin with a naive GPU implementation which is [Kernel 1](#kernel-1)<a id="kernel-0-desc"></a>, whose primary purpose is to establish a correctness baseline rather than maximize performance.
 
 The guiding principle at this stage is fidelity to the original Python implementation. The CUDA version closely mirrors the control flow and numerical logic of the CPU code, effectively “translating” the Python algorithm into CUDA. Each GPU thread is responsible for handling one Monte Carlo simulation path.
 This naive implementation ensures that the GPU and CPU implementations produce consistent results and also provides a stable reference point before introducing algorithmic refactoring and low-level optimizations, which tend to reduce code readability and complicate debugging.
@@ -107,7 +107,7 @@ This mixed-precision approach delivers substantial speedups while maintaining ac
 
 ##### Profiling and Bottleneck Analysis with Nsight Compute
 
-To identify the dominant performance bottlenecks, we profile the kernel using Nsight Compute, a profiling tool designed for deep-dive performance analysis of individual CUDA kernels. The full profiling report is included in the repo too.
+To identify the dominant performance bottlenecks, we profile the kernel using Nsight Compute, a profiling tool designed for deep-dive performance analysis of individual CUDA kernels. The full profiling report is included in the repository as well.
 Two major issues emerge:
 
  **Thread Divergence**:
@@ -123,7 +123,7 @@ Profiling reveals extremely high L2 (global) memory traffic, indicating excessiv
 </div>
 
 The original motivation for storing full price histories was to **evaluate redemption and put conditions based on historical averages**. However, closer inspection reveals that only a rolling window of past prices is required, rather than the complete history. We therefore **replace full-history storage with a sliding window**, which is: 1 \)significantly smaller than the full time series and 2 \)small enough to reside in registers or local memory instead of global memory. 
-After applying this optimization and re-profiling the kernel([Kernel 3](#kernel-3) <a id="kernel-3-desc"></a>), global memory access drops dramatically(L2 to L1 transfer size: before 12.88GB, after 1.48GB), as expected. This reduction translates directly into a substantial decrease in overall runtime(from 28.04ms to 8.01 ms).
+After applying this optimization and re-profiling the kernel ([Kernel 3](#kernel-3) <a id="kernel-3-desc"></a>), global memory access drops dramatically(L2 to L1 transfer size: before 12.88GB, after 1.48GB), as expected. This reduction translates directly into a substantial decrease in overall runtime (from 28.04ms to 8.01 ms).
 <div style="text-align: center;">
   <img src="../../../assets/posts/float_sliding_window_kernel_memory.png" width="800" style="height: auto;">
   <div class="caption text-muted">"Memory access pattern of the float sliding window kernel"</div>
