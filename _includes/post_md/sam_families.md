@@ -125,7 +125,7 @@ To address the limitations of a frozen encoder, Adapter methods introduce new ar
 
 <div style="text-align: center;">
   <img src="../../../assets/posts/sam3_adapter.png" width="800" style="height: auto;">
-  <div class="caption text-muted">"SAM-adapter architecture"</div>
+  <div class="caption text-muted">"Decoder-only tuning"</div>
 </div>
 
 ##### LoRA based method 
